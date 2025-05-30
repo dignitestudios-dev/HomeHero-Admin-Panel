@@ -2,6 +2,7 @@ import Modal from "react-modal";
 import { NoInternetImage } from "../../assets/export";
 
 const NoInternetModal = ({ isOpen }) => {
+  console.log(isOpen);
   return (
     <Modal
       isOpen={isOpen}
