@@ -3,11 +3,13 @@
 // Example:
 
 // import FILENAME(PASCALCASE) from "./FILENAME(CAMELCASE).png";
-import Logo from "./logo.webp";
+import Logo from "./logo.png";
 import NoInternetImage from "./nointernet.png";
+import person from "./person.png";
+import Group from "./Group.png";
 
 // export {
 //     FILENAME(PASCALCASE)
 // }
 
-export { Logo, NoInternetImage };
+export { Logo, NoInternetImage, person, Group };

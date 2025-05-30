@@ -1,14 +1,17 @@
 import React, { createContext, useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-import { onMessageListener } from "../firebase/messages";
-import getFCMToken from "../firebase/getFcmToken";
-import Cookies from "js-cookie";
-import axios from "../axios";
+// import { useNavigate } from "react-router-dom";
+// import { useEffect } from "react";
+// import { onMessageListener } from "../firebase/messages";
+// import getFCMToken from "../firebase/getFcmToken";
+// import Cookies from "js-cookie";
+// import axios from "../axios";
 
 export const AppContext = createContext();
 
 export const AppContextProvider = ({ children }) => {
+  const [updatePasswordSuccessfully, setUpdatePasswordSuccessfully] =
+    useState(false);
+  const [logOutModal, setLogOutModal] = useState(false);
   // Send fcm to backend:
   // const fetchToken = async () => {
   //   const token = await getFCMToken();
@@ -52,6 +55,10 @@ export const AppContextProvider = ({ children }) => {
     <AppContext.Provider
       value={{
         dummyVar,
+        setUpdatePasswordSuccessfully,
+        updatePasswordSuccessfully,
+        setLogOutModal,
+        logOutModal,
       }}
     >
       {children}
