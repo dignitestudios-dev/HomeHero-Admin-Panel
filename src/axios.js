@@ -1,24 +1,24 @@
 import axios from "axios";
 import { ErrorToast } from "./components/global/Toaster"; // Import your toaster functions
 import Cookies from "js-cookie";
-import FingerprintJS from "@fingerprintjs/fingerprintjs";
+// import FingerprintJS from "@fingerprintjs/fingerprintjs";
 
 export const baseUrl = "https://necessi.erdumadnan.com/api";
 // export const baseUrl = "https://155e-45-199-187-86.ngrok-free.app";
 
-async function getDeviceFingerprint() {
-  const fp = await FingerprintJS.load();
-  const result = await fp.get();
-  console.log(result.visitorId); // Unique device ID
-  return result.visitorId;
-}
+// async function getDeviceFingerprint() {
+//   const fp = await FingerprintJS.load();
+//   const result = await fp.get();
+//   console.log(result.visitorId); // Unique device ID
+//   return result.visitorId;
+// }
 
 const instance = axios.create({
   baseURL: baseUrl,
-  headers: {
-    devicemodel: await getDeviceFingerprint(),
-    deviceuniqueid: await getDeviceFingerprint(),
-  },
+  // headers: {
+  //   devicemodel: await getDeviceFingerprint(),
+  //   deviceuniqueid: await getDeviceFingerprint(),
+  // },
   timeout: 10000, // 10 seconds timeout
 });
 
