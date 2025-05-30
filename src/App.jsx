@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router";
+import { Navigate, Route, Routes } from "react-router";
 import "./App.css";
 import DashboardLayout from "./layouts/DashboardLayout";
 // import DummyHome from "./pages/app/Home";
@@ -30,9 +30,10 @@ function App() {
       <Route
         path="/"
         element={
-          <div className="text-7xl">
-            Project Template || Please read readme file
-          </div>
+          <Navigate to="/auth/login" />
+          // <div className="text-7xl">
+          //   Project Template || Please read readme file
+          // </div>
         }
       />
 
@@ -41,7 +42,7 @@ function App() {
         <Route path="users" element={<User />} />
         <Route path="push-notification" element={<PushNotification />} />
         <Route path="users/:id" element={<UserDetails />} />
-        <Route path="review" element={<RevenueManagement />} /> 
+        <Route path="review" element={<RevenueManagement />} />
         <Route path="payment-earnings" element={<Payment />} />
         <Route path="providers" element={<ProviderRequest />} />
         <Route path="providers/:id" element={<ProviderDetails />} />

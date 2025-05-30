@@ -10,6 +10,7 @@ import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { Logo } from "../../assets/export";
 
 const Login = () => {
+  const navigate = useNavigate();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const { loading, postData } = useLogin();
@@ -26,7 +27,7 @@ const Login = () => {
           password: values?.password,
         };
         postData("/admin/login", false, null, data, processLogin);
-
+        navigate("/app/dashboard");
         // Use the loading state to show loading spinner
         // Use the response if you want to perform any specific functionality
         // Otherwise you can just pass a callback that will process everything
