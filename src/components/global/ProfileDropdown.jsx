@@ -4,7 +4,7 @@ import useApp, { AppContext } from "../../context/AppContext";
 
 const ProfileDropdown = () => {
   const { logOutModal, setLogOutModal } = useApp(AppContext);
-  console.log(logOutModal, "sdsadsadsadsa");
+  
   return (
     <div className=" items-center space-y-3">
       <NavLink to={"/app/updatepassword"}>

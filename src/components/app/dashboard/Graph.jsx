@@ -29,7 +29,7 @@ export const options = {
   aspectRatio: 1,
   scales: {
     y: {
-      stacked: true,
+      stacked: false,
       beginAtZero: true,
     },
   },
@@ -41,67 +41,66 @@ export const options = {
       },
     },
     title: {
-      display: true,
+      display: false,
     },
   },
 };
 
 const labels = ["January", "February", "March", "April", "May", "June", "July"];
 
-const generateRandomData = (min, max, length) => {
-  return Array.from(
-    { length },
-    () => Math.floor(Math.random() * (max - min + 1)) + min
-  );
-};
-
 const createGradient = (ctx, color1, color2) => {
-  const gradient = ctx.createLinearGradient(0, 0, 0, 700);
+  const gradient = ctx.createLinearGradient(0, 0, 0, 400);
   gradient.addColorStop(0, color1);
-  gradient.addColorStop(0.38, color2);
+  gradient.addColorStop(1, color2);
   return gradient;
 };
 
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: "Selected Year",
-      backgroundColor: (context) =>
-        createGradient(
-          context.chart.ctx,
-          "rgba(98, 70, 107, 0.2)",
-          "rgba(98, 70, 107, 0)"
-        ),
-      data: generateRandomData(0, 1000, labels.length),
-      borderColor: "rgba(98, 70, 107, 1)",
-      tension: 0.4,
-      fill: true,
-    },
-    {
-      label: "Previous Year",
-      data: generateRandomData(0, 1000, labels.length),
-      backgroundColor: (context) =>
-        createGradient(
-          context.chart.ctx,
-          "rgba(98, 70, 107,  0.2)",
-          "rgba(98, 70, 107, 0)"
-        ),
-      borderColor: "rgba(98, 70, 107, 1)",
-      tension: 0.4,
-      fill: true,
-    },
-  ],
-};
+export function LineGraph({ Graphdata }) {
+  console.log("Graphdata:", Graphdata);
 
-export function LineGraph() {
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: "Selected Year",
+        data: Graphdata?.usersThisYear || [],
+        backgroundColor: (context) =>
+          createGradient(
+            context.chart.ctx,
+            "rgba(98, 70, 107, 0.3)",
+            "rgba(98, 70, 107, 0)"
+          ),
+        borderColor: "rgba(98, 70, 107, 1)",
+        tension: 0.4,
+        fill: true,
+        pointRadius: 4,
+        pointBackgroundColor: "rgba(98, 70, 107, 1)",
+      },
+      {
+        label: "Previous Year",
+        data: Graphdata?.usersPreviousYear || [],
+        backgroundColor: (context) =>
+          createGradient(
+            context.chart.ctx,
+           "rgba(98, 70, 107, 0.3)",
+            "rgba(98, 70, 107, 0)"
+          ),
+        borderColor: "rgba(98, 70, 107, 1)",
+        tension: 0.4,
+        fill: true,
+        pointRadius: 4,
+        pointBackgroundColor: "rgba(98, 70, 107, 1)",
+      },
+    ],
+  };
+
   return (
-    <div className="bg-gray-50 mt-4 backdrop-blur-[50px] pt-0 p-5 h-[350px] relative rounded-[15px] ">
-      <h3 className="font-[500] text-[15px] text-black absolute top-12 ">
+    <div className="bg-gray-50 mt-4 backdrop-blur-[50px] pt-0 p-5 h-[350px] relative rounded-[15px]">
+      <h3 className="font-[500] text-[15px] text-black absolute top-12">
         Users
       </h3>
-      <button className="flex items-center  bg-transparent absolute top-12 right-2 text-black text-[12px] font-[400] ">
-        2024 <MdKeyboardArrowDown size={23} color="black" />{" "}
+      <button className="flex items-center bg-transparent absolute top-12 right-2 text-black text-[12px] font-[400]">
+        {Graphdata?.year || "Year"} <MdKeyboardArrowDown size={23} color="black" />
       </button>
       <Line
         options={options}

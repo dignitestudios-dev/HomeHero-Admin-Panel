@@ -7,16 +7,7 @@ const UpdatePasswordSuccessfully = () => {
   const { setUpdatePasswordSuccessfully, updatePasswordSuccessfully } =
     useApp(AppContext);
 
-  useEffect(() => {
-    if (updatePasswordSuccessfully) {
-      const timer = setTimeout(() => {
-        setUpdatePasswordSuccessfully(false);
-      }, 4000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [updatePasswordSuccessfully, setUpdatePasswordSuccessfully]);
-
+  
   return (
     updatePasswordSuccessfully && (
       <div className="w-screen h-screen flex items-center justify-center bg-[rgba(0,0,0,0.4)] fixed top-0 left-0 right-0 bottom-0 z-30 px-4">

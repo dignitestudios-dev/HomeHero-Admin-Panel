@@ -2,7 +2,7 @@ import { FaAngleDown } from "react-icons/fa";
 import { Group, Logo, person } from "../../assets/export";
 import { useState } from "react";
 import ProfileDropdown from "../global/ProfileDropdown";
-
+import Cookies from "js-cookie";
 const DummyNavbar = () => {
   const [notificationDropdown, setNotificationDropdown] = useState(false);
   const [profileDropdown, setProfileDropdown] = useState(false);
@@ -13,13 +13,15 @@ const DummyNavbar = () => {
   const profilehandle = () => {
     setProfileDropdown(!profileDropdown);
   };
+  const user = JSON.parse(Cookies.get("user"));
+ 
   return (
     <div className="w-full h-full px-6 flex items-center justify-end gap-3   ">
       <div className="flex items-center gap-4">
         <img src={person} alt="" className="w-16" />
         <p className="flex flex-col text-black text-[16px]">
-          Austin Robertson
-          <span className="text-[13px] font-normal ">Administrator</span>
+          {user?.name}
+          <span className="text-[13px] font-normal ">{user?.email}</span>
         </p>
       </div>
       <div className="">

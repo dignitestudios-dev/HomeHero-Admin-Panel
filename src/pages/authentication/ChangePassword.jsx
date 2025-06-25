@@ -11,7 +11,8 @@ import { changepasswordValues } from "../../init/authentication/LoginValues";
 import { changepasswordSchema } from "../../schema/authentication/LoginSchema";
 import useApp, { AppContext } from "../../context/AppContext";
 import UpdatePasswordSuccessfully from "../../components/authentication/UpdatePasswordSuccessfully";
-
+// import axios from "axios";
+import axios from "../../axios";
 const ChangePassword = () => {
   const { updatePasswordSuccessfully, setUpdatePasswordSuccessfully } =
     useApp(AppContext);
@@ -21,6 +22,8 @@ const ChangePassword = () => {
 
   const { loading, postData } = useLogin();
 
+  const navigate = useNavigate();
+
   const { values, handleBlur, handleChange, handleSubmit, errors, touched } =
     useFormik({
       initialValues: changepasswordValues,
@@ -28,14 +31,37 @@ const ChangePassword = () => {
       validateOnChange: true,
       validateOnBlur: true,
       onSubmit: async (values, action) => {
-        const data = {
-          email: values?.email,
-        };
-        setUpdatePasswordSuccessfully(!updatePasswordSuccessfully);
-        // Use the loading state to show loading spinner
-        // Use the response if you want to perform any specific functionality
-        // Otherwise you can just pass a callback that will process everything
-      },
+        try {
+          if (values.password !== values.confirmpassword) {
+            action.setFieldError("confirmpassword", "Passwords do not match");
+            return;
+          }
+          action.setSubmitting(true);
+      
+          const data = {
+            newPassword: values.password,
+          };
+      
+          const response = await axios.post("auth/reset-password", data);
+      
+          if (response.status === 200) {
+            setUpdatePasswordSuccessfully(true);
+            action.resetForm();
+      
+            // ✅ Navigate after 3 seconds
+            setTimeout(() => {
+              setUpdatePasswordSuccessfully(false);
+              navigate("/auth/login");
+            }, 5000);
+          } else {
+            console.error("Password change failed:", response.message);
+          }
+        } catch (error) {
+          console.error("Password change failed:", error);
+        } finally {
+          action.setSubmitting(false);
+        }
+      }
     });
 
   return (

@@ -17,6 +17,7 @@ const DashboardLayout = () => {
       setOpenNoInternet(true);
     }
   }, []);
+  
   return (
     <div className="w-screen h-screen flex justify-start   items-start overflow-x-hidden">
       <div

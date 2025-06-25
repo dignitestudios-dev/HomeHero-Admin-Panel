@@ -4,51 +4,49 @@ import React, { useState } from "react";
 import UserDetailReview from "../../../components/app/user/UserDetailReview";
 
 import { person } from "../../../assets/export";
+import { useLocation } from "react-router";
 
 const UserDetails = () => {
   const [ActiveTab, setActiveTab] = useState("All");
+  const user = useLocation().state;
+  console.log(user, "user");
   return (
     <div className="p-5">
       <h2 className="text-2xl font-semibold pb-3">Users Details</h2>
       <div className="flex flex-col gap-3">
-        <div className=" bg-gray-100 backdrop-blur-[50px] rounded-[15px] p-5 flex justify-between gap-3">
+        <div className=" bg-gray-100 backdrop-blur-[50px] rounded-[15px]  items-center p-5 flex gap-24">
           <div className="flex items-center gap-5 ">
             <img
-              src={person}
-              className="rounded-full w-[100px] object-cover "
+              src={user?.profilePicture}
+              className="rounded-full w-[100px] h-[100px] object-cover "
               alt="person"
             />
-            <div>
-              <h3 className="text-black text-[20px] font-[500]">Mike Smith</h3>
-              <p className="text-black text-[14px] font-normal">@mikesmith</p>
+            <div className="flex  gap-1">
+              <h3 className="text-black text-[20px] font-[500]">{user?.name}</h3>
+              <p className="text-black text-[14px] font-normal">{user?.username}</p>
             </div>
           </div>
           <div>
-            <span className="font-[500] text-[14px] text-black">Bio</span>
-            <p className="font-[400] text-[14px] text-black">
-              Lorem ipsum dolor sit amet consectetur. Nullam ips um ornare
-              interdum sit. Sed arcu at habitant cons equat .
-            </p>
-            <ul className="mt-3">
-              <li className="flex items-center gap-3">
-                {/* <img src={email} className="w-10" alt="mail" />/ */}
-                <div>
-                  <p className="font-[500] text-[14px] text-black ">Email</p>
-                  <p className="font-[400] text-[16px] text-black ">
-                    mikesmith@gmail.com
+           
+            <div className=" flex items-center gap-20">
+              
+                <div className="flex items-center gap-3">
+                  <p className="font-[500] text-[18px] text-black ">Email:</p>
+                  <p className="font-[400] text-[18px] text-black ">
+                    {user?.email}
                   </p>
                 </div>
-              </li>
-              <li className="flex items-center gap-3 mt-5">
+             
+              
                 {/* <img src={contact} className="w-10" alt="mail" /> */}
-                <div>
-                  <p className="font-[500] text-[14px] text-black ">Phone</p>
-                  <p className="font-[400] text-[16px] text-black ">
-                    +1 123 456 7890
+                <div className="flex items-center gap-3">
+                  <p className="font-[500] text-[18px] text-black ">Phone:</p>
+                  <p className="font-[400] text-[18px] text-black ">
+                    {user?.phone}
                   </p>
                 </div>
-              </li>
-            </ul>
+             
+            </div>
           </div>
         </div>
         <div className=" h-[300px] overflow-auto py-5 bg-gray-100 backdrop-blur-[50px] rounded-[15px] p-3">

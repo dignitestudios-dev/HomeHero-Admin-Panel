@@ -6,14 +6,15 @@ import useApp, { AppContext } from "../../context/AppContext";
 import UpdatePasswordSuccessfully from "../../components/authentication/UpdatePasswordSuccessfully";
 import { UpdatePasswordValues } from "../../init/authentication/LoginValues";
 import { UpdateSchema } from "../../schema/authentication/LoginSchema";
-
+import axios from "../../axios";
+import { useNavigate } from "react-router";
 export default function InAppChangedPassword() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [IsNewPassword, setIsNewPassword] = useState(false);
   const [isReEnterPassword, setIsReEnterPassword] = useState(false);
   const { updatePasswordSuccessfully, setUpdatePasswordSuccessfully } =
     useApp(AppContext);
-
+  const navigate = useNavigate();
   const { values, handleBlur, handleChange, handleSubmit, errors, touched } =
     useFormik({
       initialValues: UpdatePasswordValues,
@@ -21,10 +22,39 @@ export default function InAppChangedPassword() {
       validateOnChange: true,
       validateOnBlur: true,
       onSubmit: async (values, action) => {
-        console.log(updatePasswordSuccessfully, "testt");
-        setUpdatePasswordSuccessfully(!updatePasswordSuccessfully);
-        const data = {};
-      },
+        try {
+          if (values.newPassword !== values.reEnterPassword) {
+            action.setFieldError("reEnterPassword", "Passwords do not match");
+            return;
+          }
+          action.setSubmitting(true);
+      
+          const data = {
+            currentPassword: values.oldPassword,
+            newPassword: values.newPassword,
+          };
+      
+          const response = await axios.post("auth/change-password", data);
+      
+          if (response.status === 200) {
+            setUpdatePasswordSuccessfully(true);
+            action.resetForm();
+      
+            // ✅ Navigate after 3 seconds
+            setTimeout(() => {
+              setUpdatePasswordSuccessfully(false);
+              navigate("/auth/login");
+            }, 5000);
+          } else {
+            console.error("Password change failed:", response.message);
+          }
+        } catch (error) {
+          console.error("Password change failed:", error);
+        } finally {
+          action.setSubmitting(false);
+        }
+      }
+    
     });
   return (
     <div className="h-[75vh]">

@@ -1,5 +1,5 @@
 import React from "react";
-
+import Cookies from "js-cookie";
 // import { checkbox } from "../../assets/export";
 import { useNavigate } from "react-router";
 import useApp, { AppContext } from "../../context/AppContext";
@@ -7,6 +7,11 @@ const LogOutModal = () => {
   const { logOutModal, setLogOutModal } = useApp(AppContext);
   const navigate = useNavigate("");
   console.log(logOutModal, "test");
+  const handleLogOut = () => {
+    Cookies.remove("token");
+    Cookies.remove("user");
+    navigate("/auth/login");
+  };
   return (
     logOutModal && (
       <div className="w-screen h-screen flex items-center justify-center bg-[rgba(0,0,0,0.4)] fixed top-0 left-0 right-0 bottom-0 z-[100] px-4">
@@ -30,8 +35,8 @@ const LogOutModal = () => {
               </button>
               <button
                 onClick={() => {
-                  setLogOutModal(!logOutModal);
-                  navigate("/auth/login");
+                  handleLogOut();
+                 
                 }}
                 className="w-[180px] h-[44px] rounded-[14px] bg-[linear-gradient(180deg,_#D9BBF9_0%,_#775B84_90%)]  text-white flex gap-2 items-center justify-center text-md font-medium"
               >

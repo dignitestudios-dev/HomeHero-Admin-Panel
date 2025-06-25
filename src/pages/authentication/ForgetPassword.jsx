@@ -8,7 +8,8 @@ import { forgotSchema } from "../../schema/authentication/LoginSchema";
 import { useFormik } from "formik";
 import { processLogin } from "../../lib/utils";
 import { useLogin } from "../../hooks/api/Post";
-
+import { ErrorToast, SuccessToast } from "../../components/global/Toaster";
+import axios from "../../axios";
 export const ForgetPassword = () => {
   const { loading, postData } = useLogin();
   const navigate = useNavigate();
@@ -19,16 +20,27 @@ export const ForgetPassword = () => {
       validateOnChange: true,
       validateOnBlur: true,
       onSubmit: async (values, action) => {
-        const data = {
-          email: values?.email,
-          password: values?.password,
-        };
-        navigate("/auth/verify-otp");
-        // postData("/admin/login", false, null, data, processLogin);
-
-        // Use the loading state to show loading spinner
-        // Use the response if you want to perform any specific functionality
-        // Otherwise you can just pass a callback that will process everything
+        try {
+          // Send email for password reset
+          const response = await axios.post(
+            "/auth/forgot-password",
+           
+            {
+              email: values.email,
+            }
+          );
+          console.log(response, "response");
+          if (response?.status === 200) {
+            sessionStorage.setItem("email", values.email);
+            navigate("/auth/verify-otp");
+            SuccessToast(response?.data?.message);
+          }
+          // Navigate to OTP verificatio
+        } catch (error) {
+          ErrorToast(
+            error.response?.data?.message || "Failed to send reset email"
+          );
+        }
       },
     });
   return (

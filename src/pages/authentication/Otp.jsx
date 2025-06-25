@@ -1,20 +1,52 @@
 import React, { useRef, useState } from "react";
 import { Logo } from "../../assets/export";
-import { NavLink, useNavigate } from "react-router";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import CountDown from "../../components/authentication/CountDown";
 import { IoArrowBack } from "react-icons/io5";
-
+import { useLogin } from "../../hooks/api/Post";
+import { ErrorToast, SuccessToast } from "../../components/global/Toaster";
+import { NavLink, useNavigate } from "react-router";
+import axios from "../../axios";
+import Cookies from "js-cookie";
 export const Otp = () => {
-  const [otp, setOtp] = useState(Array(6).fill(""));
+  const [otp, setOtp] = useState(Array(4).fill(''));
+  const [loading, setLoading] = useState(false);
   const inputs = useRef([]);
   const [isActive, setIsActive] = useState(true);
   const [seconds, setSeconds] = useState(30);
-  const navigate = useNavigate("");
-  const handleRestart = () => {
-    setSeconds(30);
-    setIsActive(true);
+  const navigate = useNavigate();
+  const email =sessionStorage.getItem('email');
+  const verifyOtp = async () => {
+    if (loading) return;
+
+    const otpString = otp.join('');
+    if (otpString.length !== 4) {
+      ErrorToast('Please enter a 4-digit OTP');
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const response = await axios.post('/auth/verify-reset-otp',{
+        email: email,
+        otp: otpString,
+      });
+
+      if (response.data.success) {
+        Cookies.set("token", response?.data?.data?.token);
+        SuccessToast('OTP verified successfully');
+        navigate('/auth/change-password');
+      } else {
+        ErrorToast('Invalid OTP. Please try again');
+      }
+    } catch (error) {
+      ErrorToast(error.response?.data?.message || 'Failed to verify OTP');
+    } finally {
+      setLoading(false);
+    }
+    setOtp(Array(4).fill(''));
   };
+
   const handleChange = (e, index) => {
     const { value } = e.target;
 
@@ -40,13 +72,47 @@ export const Otp = () => {
       }
     }
   };
+
   const handlePaste = (e) => {
     const pastedData = e.clipboardData.getData("Text");
     if (pastedData.length === otp.length) {
-      setOtp(pastedData.split(""));
+      const newOtp = pastedData.split("");
+      setOtp(newOtp);
+      inputs.current.forEach((input, index) => {
+        input.value = newOtp[index];
+      });
+      verifyOtp();
     }
-    e.preventDefault();
   };
+
+  const handleRestart = async () => {
+    try {
+      // Send email for password reset
+      const response = await axios.post(
+        "/auth/forgot-password",
+       
+        {
+          email:email,
+        }
+      );
+      console.log(response, "response");
+      if (response?.status === 200) {
+        
+        
+        SuccessToast(response?.data?.message);
+        setSeconds(30);
+        setIsActive(true);
+       setOtp(Array(4).fill(''));
+      }
+      // Navigate to OTP verificatio
+    } catch (error) {
+      ErrorToast(
+        error.response?.data?.message || "Failed to send reset email"
+      );
+    }
+   
+  };
+
   return (
     <div>
       <div className="mt-10">
@@ -57,7 +123,7 @@ export const Otp = () => {
         />
         <div className="w-full h-auto relative z-10 backdrop-blur-[50px] flex flex-col  p-6 justify-center   rounded-[19px]">
           <div className="w-auto flex  items-center">
-            <NavLink to={"/auth/forgotpassword"}>
+            <NavLink to="/auth/forgotpassword">
               <IoArrowBack size={20} className="text-black" />
             </NavLink>
 
@@ -72,11 +138,11 @@ export const Otp = () => {
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              navigate("/auth/change-password");
+              verifyOtp();
             }}
             className="w-full md:w-[393px] mt-5 flex flex-col justify-start items-start gap-4"
           >
-            <div className="w-full h-auto flex justify-start items-center gap-4">
+            <div className="w-full h-auto flex justify-center items-center gap-4">
               {otp.map((_, index) => {
                 return (
                   <input
@@ -114,9 +180,17 @@ export const Otp = () => {
             </p>
             <button
               type="submit"
+              disabled={loading}
               className="w-full h-[49px] rounded-[14px] bg-[#62466B] text-white flex gap-2 items-center justify-center text-md font-medium"
             >
-              <span>Send Otp</span>
+              {loading ? (
+                <>
+                  <FaArrowLeftLong className="animate-spin mr-2" />
+                  Verifying...
+                </>
+              ) : (
+                'Send Otp'
+              )}
             </button>
           </form>
         </div>

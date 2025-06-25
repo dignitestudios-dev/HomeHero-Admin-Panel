@@ -8,12 +8,13 @@ import { NavLink, useNavigate } from "react-router";
 import { FiLoader } from "react-icons/fi";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { Logo } from "../../assets/export";
-
+import axios from "../../axios";
+import { ErrorToast } from "../../components/global/Toaster";
+import Cookies from "js-cookie";
 const Login = () => {
   const navigate = useNavigate();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-
-  const { loading, postData } = useLogin();
+  const [loading, setloading] = useState(false);
 
   const { values, handleBlur, handleChange, handleSubmit, errors, touched } =
     useFormik({
@@ -21,16 +22,31 @@ const Login = () => {
       validationSchema: signInSchema,
       validateOnChange: true,
       validateOnBlur: true,
-      onSubmit: async (values, action) => {
-        const data = {
-          email: values?.email,
-          password: values?.password,
-        };
-        postData("/admin/login", false, null, data, processLogin);
-        navigate("/app/dashboard");
-        // Use the loading state to show loading spinner
-        // Use the response if you want to perform any specific functionality
-        // Otherwise you can just pass a callback that will process everything
+      onSubmit: async (values) => {
+        setloading(true);
+        try {
+          const response = await axios.post("/auth/login", {
+            email: values.email,
+            password: values.password,
+          });
+          console.log(response, "responseee");
+          if (response?.status === 200) {
+            Cookies.set("token", response?.data?.data?.token);
+            Cookies.set(
+              "user",
+              JSON.stringify(response?.data?.data?.authRecord)
+            );
+
+            navigate("/app/dashboard");
+          }
+        } catch (err) {
+          
+          ErrorToast(
+            err.response?.data?.message || "Login failed. Please try again."
+          );
+        } finally {
+          setloading(false);
+        }
       },
     });
 

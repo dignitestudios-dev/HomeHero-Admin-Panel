@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { FaAngleRight, FaChevronLeft } from "react-icons/fa6";
-export default function Pagination() {
-  const [pageNo, setPageNo] = useState(1);
-  const totalPages = 5;
+export default function Pagination({pagination}) {
+  const [pageNo, setPageNo] = useState(pagination?.currentPage);
+  const totalPages = pagination?.totalPages;
   const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
 
   const handlePageChange = (page) => {
@@ -12,7 +12,7 @@ export default function Pagination() {
   return (
     <div className="flex  items-center">
       <button
-        onClick={() => setPageNo((prev) => Math.max(prev - 1, 1))}
+        onClick={() => setPageNo((prev) => (prev - 1,  pagination?.currentPage))}
         className="w-full p-3 text-base bg-transparent"
         aria-label="Previous Page"
       >
@@ -35,7 +35,7 @@ export default function Pagination() {
         ))}
       </div>
       <button
-        onClick={() => setPageNo((prev) => Math.min(prev + 1, totalPages))}
+        onClick={() => setPageNo(()=>pagination?.currentPage + 1)}
         className="w-full p-3 text-base bg-transparent"
         aria-label="Next Page"
       >
