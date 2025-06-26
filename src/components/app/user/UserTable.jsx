@@ -4,7 +4,7 @@ import { dateFormate } from "../../../lib/helpers";
 import Pagination from "../../global/Pagination";
 import { useNavigate } from "react-router";
 
-export default function UserList({ data, pagination }) {
+export default function UserList({ data, pagination , setCurrentPage }) {
   const navigate = useNavigate("");
   return (
     <div>
@@ -89,7 +89,7 @@ export default function UserList({ data, pagination }) {
       </div>
 
       <div className="flex justify-end">
-        <Pagination pagination={pagination}/>
+        <Pagination pagination={pagination}  setCurrentPage={ setCurrentPage}/>
       </div>
     </div>
   );

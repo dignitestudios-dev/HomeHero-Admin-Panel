@@ -1,15 +1,32 @@
-import React, { useState } from "react";
-// import { contact, email, loginbg, person, star } from "../../../assets/export";
-
-import UserDetailReview from "../../../components/app/user/UserDetailReview";
-
-import { person } from "../../../assets/export";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router";
-
+import axios from "../../../axios";
+import UserDetailReview from "../../../components/app/user/UserDetailReview";
 const UserDetails = () => {
+
   const [ActiveTab, setActiveTab] = useState("All");
-  const user = useLocation().state;
-  console.log(user, "user");
+  const location = useLocation();
+  const user = location.state;
+
+  const [reviews, setReviews] = useState([]);
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const response = await axios.get(
+          `/user/get-user-reviews/683895d742cc489c2bbdcbcc?page=1&limit=10`
+        );
+        setReviews(response?.data?.data?.reviews);
+      } catch (error) {
+        console.error("Error fetching reviews:", error);
+      }
+    };
+
+    if (user?._id) {
+      fetchReviews();
+    }
+  }, [user?._id]);
+
+  console.log(reviews,'review');
   return (
     <div className="p-5">
       <h2 className="text-2xl font-semibold pb-3">Users Details</h2>
@@ -38,7 +55,6 @@ const UserDetails = () => {
                 </div>
              
               
-                {/* <img src={contact} className="w-10" alt="mail" /> */}
                 <div className="flex items-center gap-3">
                   <p className="font-[500] text-[18px] text-black ">Phone:</p>
                   <p className="font-[400] text-[18px] text-black ">
@@ -54,12 +70,17 @@ const UserDetails = () => {
             <h3 className="font-[500] text-[20px] text-black ">Reviews</h3>
             <div className="flex items-center gap-1">
               {/* <img src={star} className="w-4" alt="review star" /> */}
-              <span className="font-[400] text-[14px] text-black">24</span>
+              <span className="font-[400] text-[14px] text-black">{reviews?.length}</span>
             </div>
           </div>
-          {[1, 2, 3, 4, 5, 6].map(($) => (
-            <UserDetailReview key={$} />
-          ))}
+          {reviews.length > 0 ? (
+            reviews.map((review, index) => (
+              <UserDetailReview key={index} review={review} />
+              
+            ))
+          ) : (
+            <p className="text-sm text-black/60">No reviews available.</p>
+          )}
         </div>
       </div>
     </div>
