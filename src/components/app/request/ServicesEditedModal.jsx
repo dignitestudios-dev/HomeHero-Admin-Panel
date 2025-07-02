@@ -1,42 +1,61 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import { IoMdClose } from "react-icons/io";
-
+import { ErrorToast, SuccessToast } from "../../global/Toaster";
+import axios from "../../../axios";
+import { FaSpinner } from "react-icons/fa";
 const ServicesEditedModal = ({ isOpen, setIsOpen, requestData }) => {
+  console.log(requestData, "- - requestData - -");
+  const [updateLoading,setUpdateLoading] = useState(false)
   const [formData, setFormData] = useState({
-    user: "",
-    provider: "",
-    service: "",
-    date: "",
-    status: "",
-    price: "",
+    newName: "",
+    subcategoryID:""
+  });
+
+  const [formDataError, setFormDataError] = useState({
+    newName: ""
   });
 
   // Jab requestData change ho to formData update karo
   useEffect(() => {
     if (requestData) {
       setFormData({
-        user: requestData.user || "",
-        provider: requestData.provider || "",
-        service: requestData.service || "",
-        date: requestData.date || "",
-        status: requestData.status || "",
-        price: requestData.price || "",
+        newName: requestData.name || "",
+        subcategoryID: requestData._id || "", 
+        
       });
     }
   }, [requestData]);
 
   const handleChange = (e) => {
+    setFormDataError({
+      newName: ""
+    })
     setFormData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
   };
 
-  const handleSave = () => {
-    // Yahan tum formData ko API ya parent component ko bhej sakte ho
-    console.log("Saved data:", formData);
-    setIsOpen(false);
+  const handleSave =async () => {
+    try {
+      if(formData.newName === ""){
+        setFormDataError({
+          newName: "Name is required"
+        })
+        return;
+      }
+      setUpdateLoading(true)
+      const response = await axios.post(`/service/edit-subcategory`, formData);
+      if(response?.status === 200){
+        SuccessToast("Sub Category updated successfully");
+        setIsOpen(false);
+      }
+    } catch (error) {
+      ErrorToast(error?.response?.data?.message)
+    }finally{
+      setUpdateLoading(false)
+    }
   };
 
   return (
@@ -60,12 +79,17 @@ const ServicesEditedModal = ({ isOpen, setIsOpen, requestData }) => {
             <input
               className="w-full px-3 rounded-md h-10 border-2 border-[#775B84] outline-none"
               type="text"
-              name="user"
-              value={formData.user}
+              name="newName"
+              value={formData.newName}
               onChange={handleChange}
             />
+            {formDataError.newName && (
+              <p className="text-red-700 text-sm font-medium">
+                {formDataError.newName}
+              </p>
+            )}
           </div>
-          <div className="flex flex-col">
+          {/* <div className="flex flex-col">
             <label className="text-lg font-medium ">Provider</label>
             <input
               className="w-full px-3 rounded-md h-10 border-2 border-[#775B84] outline-none"
@@ -115,14 +139,19 @@ const ServicesEditedModal = ({ isOpen, setIsOpen, requestData }) => {
               value={formData.price}
               onChange={handleChange}
             />
-          </div>
+          </div> */}
 
           <button
+          disabled={updateLoading}  
             type="button"
             onClick={handleSave}
             className="mt-4 bg-[linear-gradient(180deg,_#D9BBF9_0%,_#775B84_90%)] rounded-[8px] text-white py-2 px-4"
           >
-            Save
+            {updateLoading ? (
+              <FaSpinner className="animate-spin" />
+            ) : (
+              "Save"
+            )}
           </button>
         </form>
       </div>

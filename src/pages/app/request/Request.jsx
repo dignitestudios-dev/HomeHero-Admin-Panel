@@ -1,13 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import RequestTable from "../../../components/app/request/RequestTable";
 
 import RequestFilter from "../../../components/app/request/RequestFilter";
 import ServicesCreateModal from "../../../components/app/request/ServicesCreateModal";
-import ServicesEditedModal from "../../../components/app/request/ServicesEditedModal";
 
+import axios from "../../../axios";
+import SkeletonLoader from "../../../components/app/user/SkeletonLoader";
 export default function Requests() {
   const [selectedRequest, setSelectedRequest] = useState(false);
+const [services, setServices] = useState([]);
+const [search, setSearch] = useState('');
+const [update, setUpdate] = useState(false);
+const [pagination, setPagination] = useState({}); 
+const [currentPage, setCurrentPage] = useState(1);
+const [loading, setLoading] = useState(false);
+useEffect(() => {
+  const fetchRequests = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(`/service/get-all-subcategories?page=${currentPage}&limit=10&search=${search}`);
+      setServices(response?.data?.data?.subcategories);
+      setPagination(response?.data?.pagination);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching requests:", error);
+    }
+  };
+  fetchRequests();
+}, [update, currentPage]);
 
   return (
     <div className="p-5">
@@ -21,13 +42,18 @@ export default function Requests() {
         </button>
       </div>
       <div className="flex ">
-        <RequestFilter />
+        <RequestFilter setSearch={setSearch} search={search} setUpdate={setUpdate} setCurrentPage={setCurrentPage}/>
       </div>
-
-      <RequestTable />
+{loading ? (
+  <SkeletonLoader/>
+) : (
+  
+      <RequestTable services={services} pagination={pagination} setCurrentPage={setCurrentPage} />
+)}
       <ServicesCreateModal
         isOpen={selectedRequest}
         setIsOpen={setSelectedRequest}
+        services={services}
       />
     </div>
   );

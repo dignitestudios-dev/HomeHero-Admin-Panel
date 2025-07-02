@@ -2,8 +2,9 @@ import React from "react";
 import { person } from "../../../assets/export";
 import { useNavigate } from "react-router";
 
-export const ProviderCategory = () => {
+export const ProviderCategory = ({provider}) => {
   const navigate = useNavigate();
+  console.log(provider,'provider');
   return (
     <div>
       <div className="bg-gray-50 mt-3 rounded-[25px] overflow-x-auto p-4">
@@ -17,8 +18,8 @@ export const ProviderCategory = () => {
           {/* <div className="col-span-3 py-3 text-left pl-4">Action</div> */}
         </div>
 
-        {[1, 2, 3, 4, 5, 6].map((index) => (
-          <div key={index}>
+        
+          <div>
             <div className="md:hidden  bg-opacity-40 rounded-[15px] p-4 mb-4">
               <div className="flex items-center gap-4 mb-4">
                 <img
@@ -57,21 +58,26 @@ export const ProviderCategory = () => {
                 View
               </button>
             </div>
+          </div>
 
-            <div className="hidden md:grid grid-cols-12 gap-4 items-center  py-2 mb-4 text-black text-[12px]">
-              <div className="col-span-2 text-left">(619) 602-6578 x6033</div>
-              <div className="col-span-2 text-left">@mikesmith</div>
-              <div className="col-span-2 text-left">11/22/44</div>
-              <div className="col-span-2 text-left">11/22/44</div>
-              <div className="col-span-2 text-left">11/22/44</div>
+            <div className="hidden md:grid grid-cols-12 gap-4 items-center px-4 py-2 mb-4 text-black text-[12px]">
+              <div className="col-span-2 text-left">{provider?.detail?.service}</div>
+              <div className="col-span-2 text-left">{provider?.detail?.status}</div>
+              <div className="col-span-2 text-left">{provider?.earnings}</div>
+              <div className="col-span-2 text-left">{provider?.state},{' '}{provider?.city}</div>
+              <div className="col-span-2 text-left">
+              {provider?.detail?.subCategory?.map((subCategory,index) => (
+                <div key={index} >{subCategory}</div>
+              ))}
+              </div>
 
               {/* <div className="col-span-3 flex justify-start">
               
               </div> */}
             </div>
           </div>
-        ))}
+        
       </div>
-    </div>
+    
   );
 };

@@ -3,6 +3,7 @@ export const NotificationValues = {
   Detail: "",
 };
 export const CategoryValues = {
-  Category: "",
-  SubCategory: "",
+  serviceID: "",
+  categoryID: "",
+  name: "",
 };

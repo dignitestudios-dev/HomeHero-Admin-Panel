@@ -25,16 +25,16 @@ export const sidebarData = [
     link: "/app/providers",
   },
   {
-    title: "Service Management",
+    title: "Sub Category",
     icon: <MdHomeRepairService color="white" size={20} />,
     whiteicon: <MdHomeRepairService color="#62466B" size={15} />,
     link: "/app/request",
   },
   {
-    title: "Bookings & Request",
+    title: "Job Request",
     icon: <VscReport color="white" size={20} />,
     whiteicon: <VscReport color="#62466B" size={15} />,
-    link: "/app/booking-services",
+    link: "/app/job-request",
   },
   {
     title: "Earnings",
@@ -55,7 +55,7 @@ export const sidebarData = [
     link: "/app/push-notification",
   },
   {
-    title: "Deleted",
+    title: "Blocked Providers",
     icon: <RiDeleteBin7Fill color="white" size={20} />,
     whiteicon: <RiDeleteBin7Fill color="#62466B" size={15} />,
     link: "/app/delete",

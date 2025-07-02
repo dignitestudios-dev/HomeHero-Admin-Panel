@@ -1,17 +1,36 @@
 import React, { createContext, useContext, useState } from "react";
-// import { useNavigate } from "react-router-dom";
-// import { useEffect } from "react";
-// import { onMessageListener } from "../firebase/messages";
-// import getFCMToken from "../firebase/getFcmToken";
-// import Cookies from "js-cookie";
-// import axios from "../axios";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router";
 
 export const AppContext = createContext();
 
 export const AppContextProvider = ({ children }) => {
+  const navigate = useNavigate();
   const [updatePasswordSuccessfully, setUpdatePasswordSuccessfully] =
     useState(false);
   const [logOutModal, setLogOutModal] = useState(false);
+  const [token, setToken] = useState(Cookies.get("token"));
+  const [authRecord, setAuthRecord] = useState(Cookies.get("authRecord"));
+
+  const handleLogin =(data  )=>{
+    
+    Cookies.set("token", data?.token);
+    Cookies.set(
+      "authRecord",
+      JSON.stringify(data?.authRecord)
+    );
+    setToken(data?.token)
+    setAuthRecord(data?.authRecord)
+    
+  }
+
+  const hadleLogout =()=>{
+    setToken(null)
+    setAuthRecord(null)
+    Cookies.remove("token");
+    Cookies.remove("authRecord");
+    navigate("/auth/login");
+  }
   // Send fcm to backend:
   // const fetchToken = async () => {
   //   const token = await getFCMToken();
@@ -59,15 +78,15 @@ export const AppContextProvider = ({ children }) => {
         updatePasswordSuccessfully,
         setLogOutModal,
         logOutModal,
-      }}
+        handleLogin,
+        hadleLogout,
+        token,
+        authRecord,
+        }}
     >
       {children}
     </AppContext.Provider>
   );
 };
 
-const useApp = () => {
-  return useContext(AppContext);
-};
 
-export default useApp;

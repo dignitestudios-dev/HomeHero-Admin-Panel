@@ -51,7 +51,7 @@ export default function UserList({ data, pagination , setCurrentPage }) {
               </div>
 
               <button
-                onClick={() => navigate("/app/user/1")}
+                onClick={() => navigate(`/app/users/${user?._id}`, {state: user})}
                 className="bg-[#2F7EF7] flex items-center justify-center w-full text-black px-4 py-2 rounded-[8px] text-[12px] gap-2"
               >
                 {/* <img src={view} alt="" className="w-5 h-5" /> */}

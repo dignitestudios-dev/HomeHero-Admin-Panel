@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import Cookies from "js-cookie";
 // import { checkbox } from "../../assets/export";
 import { useNavigate } from "react-router";
-import useApp, { AppContext } from "../../context/AppContext";
+import { AppContext } from "../../context/AppContext";
 const LogOutModal = () => {
-  const { logOutModal, setLogOutModal } = useApp(AppContext);
+    const { logOutModal, setLogOutModal } = useContext(AppContext);
+  
   const navigate = useNavigate("");
   console.log(logOutModal, "test");
   const handleLogOut = () => {

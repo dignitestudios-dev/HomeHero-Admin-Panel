@@ -1,8 +1,8 @@
 import { useFormik } from "formik";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
-import useApp, { AppContext } from "../../context/AppContext";
+import  { AppContext } from "../../context/AppContext";
 import UpdatePasswordSuccessfully from "../../components/authentication/UpdatePasswordSuccessfully";
 import { UpdatePasswordValues } from "../../init/authentication/LoginValues";
 import { UpdateSchema } from "../../schema/authentication/LoginSchema";
@@ -12,8 +12,7 @@ export default function InAppChangedPassword() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [IsNewPassword, setIsNewPassword] = useState(false);
   const [isReEnterPassword, setIsReEnterPassword] = useState(false);
-  const { updatePasswordSuccessfully, setUpdatePasswordSuccessfully } =
-    useApp(AppContext);
+  const { updatePasswordSuccessfully, setUpdatePasswordSuccessfully } = useContext(AppContext);
   const navigate = useNavigate();
   const { values, handleBlur, handleChange, handleSubmit, errors, touched } =
     useFormik({

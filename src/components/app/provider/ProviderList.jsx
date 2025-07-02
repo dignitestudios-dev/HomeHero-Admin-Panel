@@ -3,27 +3,8 @@ import { person } from "../../../assets/export";
 import Pagination from "../../global/Pagination";
 import { useNavigate } from "react-router";
 
-export default function ProviderList() {
-  const providers = [
-    {
-      id: 1,
-      name: "Ali Khan",
-      category: "Driver",
-      status: "Pending",
-      location: "Karachi",
-      verified: false,
-      earnings: "$1,200",
-    },
-    {
-      id: 2,
-      name: "Sara Ahmed",
-      category: "Electrician",
-      status: "Approved",
-      location: "Lahore",
-      verified: true,
-      earnings: "$2,050",
-    },
-  ];
+export default function ProviderList({provider,  setCurrentPage , pagination, }) {
+ 
 
   const navigate = useNavigate("");
   return (
@@ -34,67 +15,60 @@ export default function ProviderList() {
 
           {/* Category Filter */}
           <div className="py-3">
-            <select className="text-left outline-none  py-1 rounded-md">
-              <option value="">All Categories</option>
-              <option value="Driver">Driver</option>
-              <option value="Electrician">Electrician</option>
-              <option value="Plumber">Plumber</option>
-            </select>
+            <div  className="text-left outline-none  py-1 rounded-md">
+         Categories
+              
+            </div>
           </div>
 
           {/* Location Filter */}
           <div className="py-3">
-            <select className=" text-left outline-none  py-1 rounded-md">
-              <option value="">All Locations</option>
-              <option value="Lahore">Lahore</option>
-              <option value="Karachi">Karachi</option>
-              <option value="Islamabad">Islamabad</option>
-            </select>
+            <div className=" text-left outline-none  py-1 rounded-md">
+               Locations
+              
+            </div>
           </div>
 
           {/* Status Filter */}
           <div className="py-3">
-            <select className=" text-left outline-none  py-1 rounded-md ">
-              <option value="">All Statuses</option>
-              <option value="Pending">Pending</option>
-              <option value="Approved">Approved</option>
-              <option value="Rejected">Rejected</option>
-            </select>
+            <div className=" text-left outline-none  py-1 rounded-md ">
+              Statuses
+              
+            </div>
           </div>
 
           <div className="py-3 text-left">
-            <select className="text-left outline-none  py-1 rounded-md">
-              {/* <option value={"Yes"}></option> */}
-              <option value={"Yes"}>Verified</option>
-              <option value={"No"}>Unverified</option>
-            </select>
+            <div className="text-left outline-none  py-1 rounded-md">
+            Block Status
+              
+            </div>
           </div>
           <div className="py-3 text-left">Earnings</div>
           <div className="py-3 text-left pl-4">Action</div>
         </div>
 
-        {[1, 2, 3, 4, 5, 6].map((index) => (
+        {provider?.map((item,index) => (
           <div key={index} className="overflow-x-auto">
             <div className="grid grid-cols-7 gap-4 items-center  py-2 mb-4 text-black text-[12px]">
               <div className=" flex items-center justify-start gap-3">
                 <img
-                  src={person}
+                  src={item?.profilePicture}
                   alt="Profile"
                   className="w-12 h-12 rounded-full object-cover"
                 />
-                <span>mike smith</span>
+                <span>{item?.name}</span>
               </div>
               <div className=" text-left break-words text-wrap">
-                Electrician
+                {item?.detail?.category}
               </div>
-              <div className=" text-left">canda</div>
-              <div className=" text-left">Pending</div>
-              <div className=" text-left">Unverified</div>
-              <div className=" text-left">$25.00</div>
+              <div className=" text-left">{item?.state},{' '}{item?.city}</div>
+              <div className=" text-left">  {item?.identityStatus}</div>
+              <div className={item?.isBlocked ? "text-red-500 font-semibold" : "text-green-500 font-semibold"} text-left  >{item?.isBlocked ? "Blocked" : "Unblocked"}</div>
+              <div className=" text-left">{item?.earnings}</div>
 
               <div className=" flex justify-start">
                 <button
-                  onClick={() => navigate(`/app/providers/${index?.id}`)}
+               onClick={() => navigate(`/app/providers/${item?._id}`, { state: item })}
                   className="bg-[#62466B] text-white flex items-center justify-center px-4 py-2 rounded-[8px] gap-2"
                 >
                   {/* <img src={view} alt="" className="w-5 h-5" /> */}
@@ -106,8 +80,8 @@ export default function ProviderList() {
         ))}
       </div>
 
-      <div className="flex justify-end">
-        <Pagination />
+      <div className="flex justify-end">  
+        <Pagination setCurrentPage={setCurrentPage} pagination={pagination} />
       </div>
     </div>
     // <div className="p-6 bg-gray-100 min-h-screen space-y-8">

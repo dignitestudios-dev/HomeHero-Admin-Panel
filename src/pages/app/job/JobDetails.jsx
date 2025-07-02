@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 // import { contact, email, loginbg, person, star } from "../../../assets/export";
 
 import UserDetailReview from "../../../components/app/user/UserDetailReview";
@@ -6,9 +6,28 @@ import UserDetailReview from "../../../components/app/user/UserDetailReview";
 import { person } from "../../../assets/export";
 import { ProviderCategory } from "../../../components/app/provider/ProviderCategory";
 import { Detail } from "../../../components/app/booking/Detail";
-
-const BookingDetails = () => {
+import { useLocation } from "react-router";
+import axios from "../../../axios";
+const JobDetails = () => {
   const [ActiveTab, setActiveTab] = useState("All");
+  const location = useLocation();
+  const job = location.state;
+  console.log(job,"jobId");
+  const [jobdetails, setJobdetails] = useState({});
+  useEffect(() => {
+    const fetchJobDetails = async () => {
+      try {
+        const response = await axios.get(
+          `/job/get-job-details/${job?._id}`
+        );
+        setJobdetails(response?.data?.data?.job);
+      } catch (error) {
+        console.error("Error fetching job details:", error);
+      }
+    };
+    fetchJobDetails();
+  }, [job?._id]);
+  console.log(jobdetails, "jobdetails");
   return (
     <div className="flex flex-col p-5">
       <h2 className="text-2xl font-semibold py-6">Booking Details</h2>
@@ -21,8 +40,12 @@ const BookingDetails = () => {
               alt="person"
             />
             <div>
-              <h3 className="text-black text-[20px] font-[500]">Mike Smith</h3>
-              <p className="text-black text-[14px] font-normal">@mikesmith</p>
+              <h3 className="text-black text-[20px] font-[500]">
+                {job?.user?.name}
+              </h3>
+              <p className="text-black text-[14px] font-normal">
+                {job?.user?.username}
+              </p>
             </div>
           </div>
           <div className="">
@@ -37,7 +60,7 @@ const BookingDetails = () => {
                 <div>
                   <p className="font-[500] text-[14px] text-black ">Email</p>
                   <p className="font-[400] text-[16px] text-black ">
-                    mikesmith@gmail.com
+                    {jobdetails?.user?.email}
                   </p>
                 </div>
               </li>
@@ -46,7 +69,7 @@ const BookingDetails = () => {
                 <div>
                   <p className="font-[500] text-[14px] text-black ">Phone</p>
                   <p className="font-[400] text-[16px] text-black ">
-                    +1 123 456 7890
+                    {jobdetails?.user?.phone}
                   </p>
                 </div>
               </li>
@@ -62,9 +85,8 @@ const BookingDetails = () => {
           </button>
         </div>
       </div>
-      <Detail />
     </div>
   );
 };
 
-export default BookingDetails;
+export default JobDetails;

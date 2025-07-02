@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useLogin } from "../../hooks/api/Post";
 import { processLogin } from "../../lib/utils";
 import { useFormik } from "formik";
@@ -10,9 +10,11 @@ import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { Logo } from "../../assets/export";
 import axios from "../../axios";
 import { ErrorToast } from "../../components/global/Toaster";
-import Cookies from "js-cookie";
+import { AppContext } from "../../context/AppContext";
+
 const Login = () => {
   const navigate = useNavigate();
+  const {handleLogin} = useContext(AppContext)
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [loading, setloading] = useState(false);
 
@@ -29,18 +31,14 @@ const Login = () => {
             email: values.email,
             password: values.password,
           });
-          console.log(response, "responseee");
+          
           if (response?.status === 200) {
-            Cookies.set("token", response?.data?.data?.token);
-            Cookies.set(
-              "user",
-              JSON.stringify(response?.data?.data?.authRecord)
-            );
-
+            handleLogin(response?.data?.data)
+            
             navigate("/app/dashboard");
+           
           }
         } catch (err) {
-          
           ErrorToast(
             err.response?.data?.message || "Login failed. Please try again."
           );

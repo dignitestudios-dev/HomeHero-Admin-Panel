@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { NavLink } from "react-router";
-import useApp, { AppContext } from "../../context/AppContext";
+import { AppContext } from "../../context/AppContext";
 
 const ProfileDropdown = () => {
-  const { logOutModal, setLogOutModal } = useApp(AppContext);
+  const { hadleLogout } = useContext(AppContext);
   
   return (
     <div className=" items-center space-y-3">
@@ -14,7 +14,7 @@ const ProfileDropdown = () => {
       </NavLink>
       <div
         className="text-[#FF4040] text-[14px] font-medium "
-        onClick={() => setLogOutModal(!logOutModal)}
+        onClick={() => hadleLogout()}
       >
         Logout
       </div>

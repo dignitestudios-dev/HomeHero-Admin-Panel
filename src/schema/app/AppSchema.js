@@ -19,6 +19,7 @@ export const CategorySchema = Yup.object({
 });
 
 export const ServicesSchema = Yup.object({
-  Category: Yup.string().required("Please enter your title"),
-  Subcategory: Yup.string().required("Please enter your details"),
+  serviceID: Yup.string().required("Please enter your service"),
+  categoryID: Yup.string().required("Please enter your category"),
+  name: Yup.string().required("Please enter your name"),
 });

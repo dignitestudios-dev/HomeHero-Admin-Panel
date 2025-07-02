@@ -19,46 +19,60 @@ import ProviderDetails from "./pages/app/provider/ProviderDetails";
 import InAppChangedPassword from "./pages/authentication/InAppChangePassword";
 import Report from "./pages/app/reports/Report";
 import Requests from "./pages/app/request/Request";
-import { BookingServices } from "./pages/app/booking/BookingServices";
-import { BookingRequest } from "./pages/app/booking/BookingRequest";
-import { Delete } from "./pages/app/deleted/Delete";
-import BookingDetails from "./pages/app/booking/BookingDetails";
-import Cookies from "js-cookie";
-function App() {
- 
-  const token = Cookies.get("token");
 
+
+import { Delete } from "./pages/app/deleted/Delete";
+
+import { useContext } from "react";
+import { AppContext } from "./context/AppContext";
+
+import JobDetails from "./pages/app/job/JobDetails";
+import { JobRequest } from "./pages/app/job/JobRequest";
+
+
+
+
+
+function App() {
+  
+  const {token} = useContext(AppContext)
   return (
     <Routes>
       <Route
         path="/"
         element={
-          token ? <Navigate to="/app/dashboard" /> : <Navigate to="/auth/login" />
+          token ? (
+            <Navigate to="/app/dashboard" />
+          ) : (
+            <Navigate to="/auth/login" />
+          )
         }
       />
 
-{token ? (
-          <Route path="app" element={<DashboardLayout />}>
-            <Route path="dashboard" element={<DummyHome />} />
-            <Route path="users" element={<User />} />
-            <Route path="push-notification" element={<PushNotification />} />
-            <Route path="users/:id" element={<UserDetails />} />
-            <Route path="review" element={<RevenueManagement />} />
-            <Route path="payment-earnings" element={<Payment />} />
-            <Route path="providers" element={<ProviderRequest />} />
-            <Route path="providers/:id" element={<ProviderDetails />} />
-            <Route path="request" element={<Requests />} />
-            <Route path="updatepassword" element={<InAppChangedPassword />} />
-            <Route path="reports" element={<Report />} />
-            <Route path="booking-services" element={<BookingServices />} />
-            <Route path="booking-services/:id" element={<BookingDetails />} />
-            <Route path="booking-request" element={<BookingRequest />} />
-            <Route path="delete" element={<Delete />} />
-          </Route>
-        ) : (
+      {token ? (
+        <Route path="app" element={<DashboardLayout />}>
+          <Route path="dashboard" element={<DummyHome />} />
+          <Route path="users" element={<User />} />
+          <Route path="push-notification" element={<PushNotification />} />
+          <Route path="users/:id" element={<UserDetails />} />
+          <Route path="review" element={<RevenueManagement />} />
+          <Route path="payment-earnings" element={<Payment />} />
+          <Route path="providers" element={<ProviderRequest />} />
+          <Route path="providers/:id" element={<ProviderDetails />} />
+          <Route path="request" element={<Requests />} />
+          <Route path="updatepassword" element={<InAppChangedPassword />} />
+          <Route path="reports" element={<Report />} />
+          <Route path="job-request" element={<JobRequest />} />
+          <Route path="job-request/:id" element={<JobDetails />} />
+
           
-          <Route path="*" element={<Navigate to="/auth/login" replace />} />
-        )}
+          
+          
+          <Route path="delete" element={<Delete />} />
+        </Route>
+      ) : (
+        <Route path="*" element={<Navigate to="/auth/login" replace />} />
+      )}
 
       <Route path="auth" element={<AuthLayout />}>
         <Route path="login" element={<DummyLogin />} />

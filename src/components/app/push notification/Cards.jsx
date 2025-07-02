@@ -1,23 +1,46 @@
 import React from "react";
 import { AiOutlineDelete } from "react-icons/ai";
+import { dateFormate, TimeFormate } from "../../../lib/helpers";
 
-const Cards = () => {
+const Cards = ({ data, handleCheckboxChange }) => {
+  console.log(data, "data");
   return (
-    <div className="flex  items-center justify-between p-4 gap-4 bg-gray-50 rounded-[8px]  backdrop-blur-[50px]">
-      <div className="flex flex-col">
-        {" "}
-        <p className="font-[400] text-[18px] leading-[175%] text-black ">
-          Title Here
-        </p>
-        <p className="font-[400] text-[14px] leading-[146%] text-black">
-          Lorem ipsum dolor sit amet consectetur. Aliquet mus feugiat eget proin
-          etiam eget in semper sed. Cursus amet condimentum.
-        </p>
-      </div>
-      <div className="flex gap-2">
-        <button className=" rounded-[8px]">
-          <AiOutlineDelete size={20} className="text-red-500" />
-        </button>
+    <div className="bg-white ">
+      <div
+        className={`flex items-start justify-between p-4 border-b shadow rounded-xl ${
+          true ? "bg-gray-200 text-[#62466b]" : ""
+        }`}
+      >
+        <div className="flex items-start gap-3">
+          <div className="mt-1">
+            <div className="w-6 h-6 rounded-full bg-[#dcc2f9] flex items-center justify-center">
+              <span className="text-[#62466b]">◎</span>
+            </div>
+          </div>
+          <div>
+            <h4
+              className={`font-semibold ${
+                true ? "text-[#62466b]" : "text-gray-900"
+              }`}
+            >
+              {data.title}
+            </h4>
+            <p className="text-sm text-gray-600">{data.description}</p>
+          </div>
+        </div>
+
+        {/* Right side checkbox and date */}
+        <div className="flex items-center gap-3">
+          <div className="text-sm text-gray-500 text-right">
+            <p>{TimeFormate(data?.createdAt)}</p>
+            <p>{dateFormate(data?.createdAt)}</p>
+          </div>
+          <input
+            type="checkbox"
+            className="w-5 h-5  accent-[#62466b] rounded cursor-pointer"
+            onChange={() => handleCheckboxChange(data._id)}
+          />
+        </div>
       </div>
     </div>
   );

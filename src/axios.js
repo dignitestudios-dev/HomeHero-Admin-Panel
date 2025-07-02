@@ -56,7 +56,7 @@ instance.interceptors.response.use(
     if (error.response && error.response.status === 401) {
       // Unauthorized error
       Cookies.remove("token");
-      Cookies.remove("user");
+      Cookies.remove("authRecord");
       ErrorToast("Session expired. Please relogin");
       // window.location.href = "/";
     }

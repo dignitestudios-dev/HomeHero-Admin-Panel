@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useLogin } from "../../hooks/api/Post";
 import { processLogin } from "../../lib/utils";
 import { useFormik } from "formik";
@@ -9,13 +9,12 @@ import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { Logo } from "../../assets/export";
 import { changepasswordValues } from "../../init/authentication/LoginValues";
 import { changepasswordSchema } from "../../schema/authentication/LoginSchema";
-import useApp, { AppContext } from "../../context/AppContext";
+import  { AppContext } from "../../context/AppContext";
 import UpdatePasswordSuccessfully from "../../components/authentication/UpdatePasswordSuccessfully";
 // import axios from "axios";
 import axios from "../../axios";
 const ChangePassword = () => {
-  const { updatePasswordSuccessfully, setUpdatePasswordSuccessfully } =
-    useApp(AppContext);
+  const { updatePasswordSuccessfully, setUpdatePasswordSuccessfully } =useContext(AppContext);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
     useState(false);

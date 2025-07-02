@@ -4,24 +4,26 @@ import Pagination from "../../global/Pagination";
 import { useNavigate } from "react-router";
 import UserModalReport from "./UserModalReport";
 import { person } from "../../../assets/export";
+import { dateFormate } from "../../../lib/helpers";
 
-export default function ReportedUsers() {
+export default function ReportedUsers({ reports, pagination, setCurrentPage }) {
   const [isopen, setIsopen] = useState(false);
-
+ 
+const [report, setReport] = useState(null);
   return (
     <div>
       <div className="bg-gray-50 mt-3 rounded-[25px] overflow-x-auto p-4">
         <div className="hidden md:grid grid-cols-12 gap-4 bg-white rounded-lg px-4 text-black font-semibold text-[12px] mb-4">
-          <div className="col-span-2 py-3 text-left">Name</div>
-          <div className="col-span-4 py-3 text-left">Reason</div>
-
-          <div className="col-span-2 py-3 text-left">User Name</div>
+          <div className="col-span-2 py-3 text-left">Blocked types</div>
+          <div className="col-span-2 py-3 text-left">Blocked By</div>
+          <div className="col-span-2 py-3 text-left">Reason</div>
+          <div className="col-span-2 py-3 text-left">Blocked By email</div>
           <div className="col-span-2 py-3 text-left">Report Date</div>
           <div className="col-span-2 py-3 text-left pl-6">Action</div>
         </div>
 
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((index) => (
-          <div key={index}>
+        {reports.map((report, index) => (
+          <div key={report._id}>
             <div className="md:hidden  bg-opacity-40 rounded-[15px] p-4 mb-4">
               <div className="flex items-center gap-4 mb-4">
                 <img
@@ -31,7 +33,11 @@ export default function ReportedUsers() {
                 />
                 <div>
                   <p className="font-medium text-[14px] text-black">
-                    mike smith
+                    {report.reportedByUser
+                      ? report.reportedByUser.name
+                      : report.reportedByProvider
+                      ? report.reportedByProvider.name
+                      : "Unknown"}
                   </p>
                   <p className="text-[12px] text-black/70">@mikesmith</p>
                 </div>
@@ -62,31 +68,39 @@ export default function ReportedUsers() {
             </div>
 
             <div className="hidden md:grid grid-cols-12 gap-6 items-center  py-2 mb-4 text-black text-[12px]">
-              <div className="col-span-2 flex items-center justify-start gap-3">
-                <img
-                  src={person}
-                  alt="Profile"
-                  className="w-10 h-10 rounded-full object-cover"
-                />
-                <span>mike smith</span>
-              </div>
-              <div className="col-span-4 text-left break-words text-wrap">
-                Lorem ipsum dolor sit amet consectetur. Donec mattis vestibulum.{" "}
+              <div className="col-span-2 capitalize flex items-center justify-start gap-3">
+                <span className="pl-6">{report.type}</span>
               </div>
 
-              <div className="col-span-2   flex items-center justify-start gap-3">
-                {" "}
-                <img
-                  src={person}
-                  alt="Profile"
-                  className="w-10 h-10 rounded-full object-cover"
-                />
-                <span>mike smith</span>
+              <div className="col-span-2  capitalize flex items-center justify-start gap-3">
+                <span>
+                  {report.reportedByUser
+                    ? report.reportedByUser.name
+                    : report.reportedByProvider
+                    ? report.reportedByProvider.name
+                    : "Unknown"}
+                </span>
               </div>
-              <div className="col-span-2 text-left">11/22/44</div>
+              <div className="col-span-2 text-left break-words text-wrap truncate max-w-xs">
+  {report.reason?.length > 10
+    ? report.reason.slice(0, 10) + "..."
+    : report.reason}
+</div>
+<div className="col-span-2 text-left truncate max-w-[180px]">
+  {report.reportedByUser?.email
+    ? report.reportedByUser.email.length > 8
+      ? report.reportedByUser.email.slice(0, 10) + "..."
+      : report.reportedByUser.email
+    : report.reportedByProvider?.email
+    ? report.reportedByProvider.email.length > 10
+      ? report.reportedByProvider.email.slice(0, 10) + "..."
+      : report.reportedByProvider.email
+    : "Unknown"}
+</div>
+              <div className="col-span-2 text-left">{dateFormate(report.createdAt)}</div>
               <div className="col-span-2 flex justify-start">
                 <button
-                  onClick={() => setIsopen(!isopen)}
+                  onClick={() => {setIsopen(!isopen); setReport(report)}}
                   className=" bg-[#62466B] flex items-center justify-end px-4 py-2 rounded-[8px] gap-2 text-white"
                 >
                   View
@@ -98,9 +112,9 @@ export default function ReportedUsers() {
       </div>
 
       <div className="flex justify-end">
-        <Pagination />
+        <Pagination pagination={pagination} setCurrentPage={setCurrentPage} />
       </div>
-      <UserModalReport isOpen={isopen} setIsOpen={setIsopen} />
+      {isopen&&<UserModalReport isOpen={isopen} setIsOpen={setIsopen} report={report} />}
     </div>
   );
 }

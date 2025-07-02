@@ -13,7 +13,7 @@ const UserDetails = () => {
     const fetchReviews = async () => {
       try {
         const response = await axios.get(
-          `/user/get-user-reviews/683895d742cc489c2bbdcbcc?page=1&limit=10`
+          `/user/get-user-reviews/${user?._id}?page=1&limit=10`
         );
         setReviews(response?.data?.data?.reviews);
       } catch (error) {

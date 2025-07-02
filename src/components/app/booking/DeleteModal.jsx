@@ -2,7 +2,6 @@ import React from "react";
 
 // import { checkbox } from "../../assets/export";
 import { useNavigate } from "react-router";
-import useApp, { AppContext } from "../../../context/AppContext";
 
 const DeleteModal = ({ isOpen, setIsOpen }) => {
   return (

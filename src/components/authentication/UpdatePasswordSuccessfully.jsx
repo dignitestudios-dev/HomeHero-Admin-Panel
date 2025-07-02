@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import cookie from "js-cookie";
 import { RiLogoutCircleRLine } from "react-icons/ri";
-import useApp, { AppContext } from "../../context/AppContext";
+import  { AppContext } from "../../context/AppContext";
 // import { checkbox } from "../../assets/export";
 const UpdatePasswordSuccessfully = () => {
-  const { setUpdatePasswordSuccessfully, updatePasswordSuccessfully } =
-    useApp(AppContext);
+    const { logOutModal, setLogOutModal } = useContext(AppContext);
+  
 
   
   return (
