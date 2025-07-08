@@ -8,7 +8,8 @@ const DummyNavbar = () => {
   const [notificationDropdown, setNotificationDropdown] = useState(false);
   const [profileDropdown, setProfileDropdown] = useState(false);
   const {authRecord} = useContext(AppContext);
-
+console.log(authRecord,'authRecord');
+  
   const notificationhandle = () => {
     setNotificationDropdown(!notificationDropdown);
   };
@@ -19,7 +20,7 @@ const DummyNavbar = () => {
   return (
     <div className="w-full h-full px-6 flex items-center justify-end gap-3   ">
       <div className="flex items-center gap-4">
-        <img src={person} alt="" className="w-16" />
+        {/* <img src={person} alt="" className="w-16" /> */}
         <p className="flex flex-col text-black text-[16px]">
           {authRecord?.name}
           <span className="text-[13px] font-normal ">{authRecord?.email}</span>

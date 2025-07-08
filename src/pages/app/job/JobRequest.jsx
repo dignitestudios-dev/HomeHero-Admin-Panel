@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import JobList from "../../../components/job/JobList";
 import { FilterBooking } from "../../../components/app/booking/FilterBooking";
 import axios from "../../../axios";
+import JobFilter from "../../../components/job/JobFilter";
 
 export const JobRequest = () => {
   const [jobrequest, setJobrequest] = useState([]);
@@ -11,6 +12,7 @@ export const JobRequest = () => {
   const [status, setStatus] = useState("active");
   const [pagination, setPagination] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
+  const [update, setUpdate] = useState(false);
   const[loading, setLoading] = useState(false);
   
     const fetchJobRequest = async () => {
@@ -38,9 +40,7 @@ useEffect(() => {
         <h2 className="text-2xl font-bold mb-4">Job Request</h2>
         <div>
 
-        <FilterBooking
-         
-          />
+        <JobFilter/>
           </div>
       </div>
       <JobList jobrequest={jobrequest} pagination={pagination} setCurrentPage={setCurrentPage}/>

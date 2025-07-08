@@ -10,7 +10,7 @@ export const AppContextProvider = ({ children }) => {
     useState(false);
   const [logOutModal, setLogOutModal] = useState(false);
   const [token, setToken] = useState(Cookies.get("token"));
-  const [authRecord, setAuthRecord] = useState(Cookies.get("authRecord"));
+  const [authRecord, setAuthRecord] = useState((Cookies.get("authRecord")));
 
   const handleLogin =(data  )=>{
     

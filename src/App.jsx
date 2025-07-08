@@ -28,6 +28,9 @@ import { AppContext } from "./context/AppContext";
 
 import JobDetails from "./pages/app/job/JobDetails";
 import { JobRequest } from "./pages/app/job/JobRequest";
+import { PaymentDetails } from "./pages/app/payment/PaymentDetails";
+import { Disputes } from "./pages/app/disputes/Disputes";
+import { DisputeDetails } from "./pages/app/disputes/DisputeDetails";
 
 
 
@@ -56,7 +59,7 @@ function App() {
           <Route path="push-notification" element={<PushNotification />} />
           <Route path="users/:id" element={<UserDetails />} />
           <Route path="review" element={<RevenueManagement />} />
-          <Route path="payment-earnings" element={<Payment />} />
+          <Route path="payments" element={<Payment />} />
           <Route path="providers" element={<ProviderRequest />} />
           <Route path="providers/:id" element={<ProviderDetails />} />
           <Route path="request" element={<Requests />} />
@@ -64,7 +67,10 @@ function App() {
           <Route path="reports" element={<Report />} />
           <Route path="job-request" element={<JobRequest />} />
           <Route path="job-request/:id" element={<JobDetails />} />
-
+          <Route path="payments/:id" element={<PaymentDetails />} />
+          <Route path="disputes" element={<Disputes />} />
+          <Route path="disputes/:id" element={<DisputeDetails />} />
+          
           
           
           

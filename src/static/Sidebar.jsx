@@ -25,23 +25,31 @@ export const sidebarData = [
     link: "/app/providers",
   },
   {
+    title: "Payments",
+    icon: <FaMoneyBillTrendUp color="white" size={20} />,
+    whiteicon: <FaMoneyBillTrendUp color="#62466B" size={15} />,
+    link: "/app/payments",
+  },
+  {
+    title: "Disputes",
+    icon: <FaMoneyBillTrendUp color="white" size={20} />,
+    whiteicon: <FaMoneyBillTrendUp color="#62466B" size={15} />,
+    link: "/app/disputes",
+  },
+  {
     title: "Sub Category",
     icon: <MdHomeRepairService color="white" size={20} />,
     whiteicon: <MdHomeRepairService color="#62466B" size={15} />,
     link: "/app/request",
   },
+ 
   {
     title: "Job Request",
     icon: <VscReport color="white" size={20} />,
     whiteicon: <VscReport color="#62466B" size={15} />,
     link: "/app/job-request",
   },
-  {
-    title: "Earnings",
-    icon: <FaMoneyBillTrendUp color="white" size={20} />,
-    whiteicon: <FaMoneyBillTrendUp color="#62466B" size={15} />,
-    link: "/app/payment-earnings",
-  },
+  
   {
     title: "Reviews",
     icon: <MdReviews color="white" size={20} />,
