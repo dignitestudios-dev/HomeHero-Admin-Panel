@@ -8,7 +8,7 @@ import Pagination from "../../global/Pagination";
 
 
 
-export default function RequestTable({services, pagination, setCurrentPage}) {
+export default function RequestTable({services, pagination, setCurrentPage,refetch,setRefetch}) {
   const [modal, setModal] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState(null);
   const navigate = useNavigate();
@@ -61,6 +61,8 @@ export default function RequestTable({services, pagination, setCurrentPage}) {
         isOpen={modal}
         setIsOpen={setModal}
         requestData={selectedRequest}
+        refetch={refetch}
+        setRefetch={setRefetch}
        
       />
     </div>

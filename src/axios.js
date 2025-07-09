@@ -1,30 +1,29 @@
 import axios from "axios";
 import { ErrorToast } from "./components/global/Toaster"; // Import your toaster functions
 import Cookies from "js-cookie";
-// import FingerprintJS from "@fingerprintjs/fingerprintjs";
+import FingerprintJS from "@fingerprintjs/fingerprintjs";
 
 export const baseUrl = "https://api.myhomehero.co/admin/";
 // export const baseUrl = "https://155e-45-199-187-86.ngrok-free.app";
 
-// async function getDeviceFingerprint() {
-//   const fp = await FingerprintJS.load();
-//   const result = await fp.get();
-//   console.log(result.visitorId); // Unique device ID
-//   return result.visitorId;
-// }
+async function getDeviceFingerprint() {
+  const fp = await FingerprintJS.load();
+  const result = await fp.get();
+ 
+  return result.visitorId;
+}
 
 const instance = axios.create({
   baseURL: baseUrl,
   headers: {
-    // devicemodel: await getDeviceFingerprint(),
-    // deviceuniqueid: await getDeviceFingerprint(),
-    devicemodel: "postman-ibrahim",
-    deviceuniqueid: "lenovo1234567sad",
+    devicemodel:  getDeviceFingerprint(),
+    deviceuniqueid:  getDeviceFingerprint(),
+    
   },
-  timeout: 10000, // 10 seconds timeout
+
 });
 
-instance.interceptors.request.use((request) => {
+instance.interceptors.request.use(async(request) => {
   const token = Cookies.get("token");
   if (!navigator.onLine) {
     // No internet connection
@@ -34,11 +33,14 @@ instance.interceptors.request.use((request) => {
     return;
     // return Promise.reject(new Error("No internet connection"));
   }
-
+  const visitorId = await getDeviceFingerprint();
+  
   // Merge existing headers with token
   request.headers = {
     ...request.headers, // Keep existing headers like devicemodel and deviceuniqueid
     Accept: "application/json, text/plain, */*",
+    devicemodel: visitorId,
+        deviceuniqueid: visitorId,
     ...(token && { Authorization: `Bearer ${token}` }), // Add Authorization only if token exists
   };
 

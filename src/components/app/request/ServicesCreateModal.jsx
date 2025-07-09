@@ -8,7 +8,7 @@ import axios from "../../../axios";
 import { SuccessToast } from "../../global/Toaster";
 import { FaSpinner } from "react-icons/fa";
 
-const ServicesCreateModal = ({ isOpen, setIsOpen, services }) => {
+const ServicesCreateModal = ({ isOpen, setIsOpen, services,refetch,setRefetch }) => {
   const [loading, setLoading] = useState(false);
   const [category, setCategory] = useState([]);
   
@@ -42,6 +42,7 @@ console.log(category, "category");
         const response = await axios.post(`/service/create-subcategory`, data);
         console.log("Service created successfully:", response.data);
         if(response?.data?.success){
+          setRefetch(!refetch)
         SuccessToast("Sub Category created successfully");
           setIsOpen(false);
           action.resetForm();
@@ -75,7 +76,7 @@ console.log(category, "category");
         className="bg-gray-100 w-[430px] p-4 backdrop-blur-[50px] rounded-[16px] shadow-lg"
       >
         <div className="flex items-center justify-between mt-3">
-          <h3 className="text-black font-[700] text-[24px]">Create Services</h3>
+          <h3 className="text-black font-[700] text-[24px]">Create Sub Category</h3>
           <button type="button" onClick={() => setIsOpen(false)}>
             <IoMdClose className="text-black" />
           </button>
@@ -87,7 +88,7 @@ console.log(category, "category");
             Service
           </label>
 
-          <select name="serviceID" id="" value={values.serviceID}
+          <select name="serviceID" id="" value={values.serviceID} className="w-full px-3 rounded-md h-10 border border-[#775B84] outline-none"
             onChange={(e) => {
               setFieldValue("serviceID", e.target.value);
               setSelectedServiceId(e.target.value);
@@ -110,7 +111,7 @@ console.log(category, "category");
 
         {/* Sub Category */}
         <div className="w-full flex flex-col gap-3 mt-3">
-          <label className="text-black font-medium text-[14px]">Sub Category</label>
+          <label className="text-black font-medium text-[14px]">Category</label>
           <select
             name="categoryID"
             value={values.categoryID}

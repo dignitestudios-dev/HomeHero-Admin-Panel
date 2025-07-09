@@ -15,6 +15,7 @@ const [update, setUpdate] = useState(false);
 const [pagination, setPagination] = useState({}); 
 const [currentPage, setCurrentPage] = useState(1);
 const [loading, setLoading] = useState(false);
+const [refetch, setRefetch] = useState(false);
 useEffect(() => {
   const fetchRequests = async () => {
     try {
@@ -28,7 +29,7 @@ useEffect(() => {
     }
   };
   fetchRequests();
-}, [update, currentPage]);
+}, [update, currentPage,refetch]);
 
   return (
     <div className="p-5">
@@ -41,19 +42,21 @@ useEffect(() => {
           Create
         </button>
       </div>
-      <div className="flex ">
+      <div className="flex justify-end">
         <RequestFilter setSearch={setSearch} search={search} setUpdate={setUpdate} setCurrentPage={setCurrentPage}/>
       </div>
 {loading ? (
   <SkeletonLoader/>
 ) : (
   
-      <RequestTable services={services} pagination={pagination} setCurrentPage={setCurrentPage} />
+      <RequestTable services={services} pagination={pagination} setCurrentPage={setCurrentPage} refetch={refetch} setRefetch={setRefetch} />
 )}
       <ServicesCreateModal
         isOpen={selectedRequest}
         setIsOpen={setSelectedRequest}
         services={services}
+        refetch={refetch}
+        setRefetch={setRefetch}
       />
     </div>
   );

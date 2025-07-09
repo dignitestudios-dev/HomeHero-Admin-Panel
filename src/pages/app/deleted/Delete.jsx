@@ -3,6 +3,7 @@ import DeleteList from "../../../components/app/delete/DeleteList";
 import axios from "../../../axios";
 import { SuccessToast } from "../../../components/global/Toaster";
 import { useNavigate } from "react-router";
+import SkeletonLoader from "../../../components/app/user/SkeletonLoader";
 export const Delete = () => {
   const [deleteData, setDeleteData] = useState([]);
   const [pagination, setPagination] = useState({});
@@ -53,15 +54,19 @@ export const Delete = () => {
  
   return (
     <div>
+
       <p className="text-2xl font-semibold">Blocked Providers</p>
-      <DeleteList
+    {loading ? (
+            <SkeletonLoader/>
+          ) : (
+             <DeleteList
         handleDelete={handleDelete}
         deleteData={deleteData}
         pagination={pagination}
         setCurrentPage={setCurrentPage}
         blockLoader={blockLoader}
         
-      />
+      />) }
     </div>
   );
 };

@@ -26,7 +26,7 @@ const [update, setUpdate] = useState(false);
       }
     };
     fetchData();
-  }, [currentPage, update]);
+  }, [currentPage, update ]);
   return (
     <div>
       <div className="flex justify-between p-5">

@@ -4,7 +4,7 @@ import { IoMdClose } from "react-icons/io";
 import { ErrorToast, SuccessToast } from "../../global/Toaster";
 import axios from "../../../axios";
 import { FaSpinner } from "react-icons/fa";
-const ServicesEditedModal = ({ isOpen, setIsOpen, requestData }) => {
+const ServicesEditedModal = ({ isOpen, setIsOpen, requestData,refetch,setRefetch }) => {
   console.log(requestData, "- - requestData - -");
   const [updateLoading,setUpdateLoading] = useState(false)
   const [formData, setFormData] = useState({
@@ -48,6 +48,8 @@ const ServicesEditedModal = ({ isOpen, setIsOpen, requestData }) => {
       setUpdateLoading(true)
       const response = await axios.post(`/service/edit-subcategory`, formData);
       if(response?.status === 200){
+        setRefetch((prev)=>!prev)
+
         SuccessToast("Sub Category updated successfully");
         setIsOpen(false);
       }
@@ -68,14 +70,14 @@ const ServicesEditedModal = ({ isOpen, setIsOpen, requestData }) => {
     >
       <div className="bg-gray-100 w-[430px] p-4    backdrop-blur-[50px] rounded-[16px] shadow-lg   ">
         <div className="flex items-center justify-between mt-3">
-          <h3 className="text-xl font-bold py-5">Edit Request</h3>
+          <h3 className="text-xl font-bold py-5">Edit Sub Category</h3>
           <button onClick={() => setIsOpen(false)}>
             <IoMdClose size={24} />
           </button>
         </div>
         <form className="flex flex-col gap-3">
           <div className="flex flex-col">
-            <label className="text-lg font-medium ">User</label>
+            <label className="text-lg font-medium ">Sub Category</label>
             <input
               className="w-full px-3 rounded-md h-10 border-2 border-[#775B84] outline-none"
               type="text"
@@ -145,10 +147,10 @@ const ServicesEditedModal = ({ isOpen, setIsOpen, requestData }) => {
           disabled={updateLoading}  
             type="button"
             onClick={handleSave}
-            className="mt-4 bg-[linear-gradient(180deg,_#D9BBF9_0%,_#775B84_90%)] rounded-[8px] text-white py-2 px-4"
+            className="mt-4 flex justify-center  bg-[linear-gradient(180deg,_#D9BBF9_0%,_#775B84_90%)] rounded-[8px] text-white py-2 px-4"
           >
             {updateLoading ? (
-              <FaSpinner className="animate-spin" />
+              <FaSpinner className="animate-spin flex justify-center items-center" />
             ) : (
               "Save"
             )}

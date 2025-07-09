@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReportedUsers from "../../../components/app/report/ReportedUsers";
 import axios from "../../../axios";
+import SkeletonLoader from "../../../components/app/user/SkeletonLoader";
 const Report = () => {
   const [reports, setReports] = useState([]);
   const [pagination, setPagination] = useState({});
@@ -29,7 +30,11 @@ console.log(reports,'reports');
     <div>
       <div className="">
         <div className="text-2xl font-semibold">Reports</div>
-        <ReportedUsers reports={reports} pagination={pagination} setCurrentPage={setCurrentPage} />
+        {loading ? (
+            <SkeletonLoader/>
+          ) : (
+             <ReportedUsers reports={reports} pagination={pagination} setCurrentPage={setCurrentPage} />
+          )}
       </div>
     </div>
   );

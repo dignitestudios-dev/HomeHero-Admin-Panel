@@ -18,12 +18,12 @@ export default function DisputesList() {
 
       <div className="bg-gray-50 mt-3 rounded-[25px] overflow-x-auto p-4">
         <div className="hidden md:grid grid-cols-8 gap-4 text-black bg-white rounded-lg px-4 font-semibold text-[12px] mb-4">
-          <div className="col-span-1 py-3 text-left">Title</div>
-          <div className="col-span-1 py-3 text-left">User</div>
-          <div className="col-span-1 py-3 text-left">Provider</div>
-          <div className="col-span-1 py-3 text-left">service</div>
+          <div className="col-span-1 py-3 text-left">Job Title</div>
+          <div className="col-span-1 py-3 text-left">User Name</div>
+          <div className="col-span-1 py-3 text-left">Provider Name</div>
+          <div className="col-span-1 py-3 text-left">Service</div>
           <div className="col-span-1 py-3 text-left">Date</div>
-          <div className="col-span-1 py-3 text-left ">status</div>
+          <div className="col-span-1 py-3 text-left ">Status</div>
           <div className="col-span-1 py-3 text-left ">Payment Status</div>
           <div className="col-span-1 py-3 text-right ">Action</div>
         </div>

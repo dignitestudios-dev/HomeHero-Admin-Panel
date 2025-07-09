@@ -95,11 +95,11 @@ export function LineGraph({ Graphdata }) {
   };
 
   return (
-    <div className="bg-gray-50 mt-4 backdrop-blur-[50px] pt-0 p-5 h-[350px] relative rounded-[15px]">
-      <h3 className="font-[500] text-[15px] text-black absolute top-12">
+    <div className="bg-gray-50 mt-4 backdrop-blur-[50px] pt-4 p-5 h-[350px] relative rounded-[15px]">
+      <h3 className="font-[500] text-[15px] text-black absolute top-6">
         Users
       </h3>
-      <button className="flex items-center bg-transparent absolute top-12 right-2 text-black text-[12px] font-[400]">
+      <button className="flex items-center bg-transparent absolute top-6 right-2 text-black text-[12px] font-[400]">
         {Graphdata?.year || "Year"} <MdKeyboardArrowDown size={23} color="black" />
       </button>
       <Line
@@ -112,7 +112,7 @@ export function LineGraph({ Graphdata }) {
               const originalFit = chart.legend.fit;
               chart.legend.fit = function () {
                 originalFit.bind(chart.legend)();
-                this.height += 40;
+                this.height += 20;
               };
             },
           },

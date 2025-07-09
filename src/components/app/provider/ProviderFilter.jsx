@@ -30,7 +30,7 @@ export default function ProviderFilter({setSearch , search, setCategory, categor
   
    return (
      <div className="relative items-center flex gap-4">
-      <div className="w-[400px] border-gray-300">
+      <div className="w-[200px] border-gray-300">
        <label htmlFor="search" className="text-sm font-medium">
          Search by Name
        </label>
@@ -52,7 +52,7 @@ export default function ProviderFilter({setSearch , search, setCategory, categor
          </button>
        </div>
        </div>
-       <div className="w-[400px] border-gray-300">
+       <div className="w-[200px] border-gray-300">
        <label htmlFor="category" className="text-sm font-medium">
          Search by Category
        </label>

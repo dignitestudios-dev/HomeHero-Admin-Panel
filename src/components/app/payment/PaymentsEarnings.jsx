@@ -8,10 +8,10 @@ export const PaymentsEarnings = () => {
         {/* Section 1: Payment Records */}
         <div className="bg-gray-50 rounded-2xl shadow p-6 mb-6">
           <div className="overflow-x-auto space-y-4 ">
-            <div className="grid grid-cols-7 bg-white rounded-lg px-4 text-sm font-semibold text-left p-2 ">
-              <div>Job title</div>
-              <div>Provider</div>
-              <div>User</div>
+            <div className="grid grid-cols-7 bg-white rounded-lg px-4 text-[12px] font-semibold text-left p-2 ">
+              <div>Job Title</div>
+              <div>Provider Name</div>
+              <div>User Name</div>
               <div>Status</div>
               <div>Amount</div>
               <div>Date</div>

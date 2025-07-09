@@ -14,35 +14,33 @@ export default function ProviderList({provider,  setCurrentPage , pagination, })
           <div className="py-3 text-left">Name</div>
 
           {/* Category Filter */}
-          <div className="py-3">
-            <div  className="text-left outline-none  py-1 rounded-md">
+          
+            <div  className="text-left outline-none py-3  rounded-md">
          Categories
               
             </div>
-          </div>
+          
 
           {/* Location Filter */}
-          <div className="py-3">
-            <div className=" text-left outline-none  py-1 rounded-md">
+          
+            <div className=" text-left outline-none  py-3 rounded-md">
                Locations
               
             </div>
-          </div>
 
           {/* Status Filter */}
-          <div className="py-3">
-            <div className=" text-left outline-none  py-1 rounded-md ">
+          
+            <div className=" text-left outline-none  py-3 rounded-md ">
               Statuses
               
             </div>
-          </div>
+          
 
-          <div className="py-3 text-left">
-            <div className="text-left outline-none  py-1 rounded-md">
+          
+            <div className="text-left outline-none  py-3 rounded-md">
             Block Status
               
             </div>
-          </div>
           <div className="py-3 text-left">Earnings</div>
           <div className="py-3 text-left pl-4">Action</div>
         </div>
