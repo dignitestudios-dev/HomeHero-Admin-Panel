@@ -5,7 +5,7 @@ import { dateFormate } from "../../../lib/helpers";
 import Pagination from "../../global/Pagination";
 
 
-export default function DisputesList() {
+export default function DisputesList({disputes,pagination,setCurrentPage}) {
   
 
   const navigate = useNavigate();
@@ -21,26 +21,25 @@ export default function DisputesList() {
           <div className="col-span-1 py-3 text-left">Job Title</div>
           <div className="col-span-1 py-3 text-left">User Name</div>
           <div className="col-span-1 py-3 text-left">Provider Name</div>
-          <div className="col-span-1 py-3 text-left">Service</div>
+          <div className="col-span-1 py-3 text-left">Budget</div>
           <div className="col-span-1 py-3 text-left">Date</div>
           <div className="col-span-1 py-3 text-left ">Status</div>
-          <div className="col-span-1 py-3 text-left ">Payment Status</div>
           <div className="col-span-1 py-3 text-right ">Action</div>
         </div>
 
-        {[1,2,3,4,5,6,7,8,9,10,11].map((req) => (
-          <div className="border-b" key={req.id}>
+        {disputes?.map((items) => (
+          <div className="border-b" key={items?._id}>
             <div className="hidden md:grid grid-cols-8 gap-4 items-center py-4 mt-4 text-black text-[12px]">
-              <div className="col-span-1 pl-3">{req.title}</div>
-              <div className="col-span-1 pl-3">{req.user}</div>
-              <div className="col-span-1 ">{req.provider}</div>
-              <div className="col-span-1 ">{req.service}</div>
-              <div className="col-span-1">{dateFormate(req.date)}</div>
-              <div className={`col-span-1  ${req.status === "active" ? "text-green-500 font-semibold" : "text-red-500 font-semibold"}`}>{req.status}</div>
-              <div className="col-span-1">{req.paymentStatus}</div>
+              <div className="col-span-1 pl-3">{items?.title}</div>
+              <div className="col-span-1 pl-3">{items?.user?.name}</div>
+              <div className="col-span-1 ">{items?.provider?.name}</div>
+              <div className="col-span-1 ">{items?.budget}</div>
+              <div className="col-span-1">{dateFormate(items?.createdAt)}</div>
+              <div className={`col-span-1  ${items?.disputeStatus === "active" ? "text-green-500 font-semibold" : "text-red-500 font-semibold"}`}>{items?.disputeStatus}</div>
+             
               <div className="col-span-1 flex justify-end">
                 <button
-                onClick={() => navigate(`/app/disputes/${req}`)}
+                onClick={() => navigate(`/app/disputes/${items?._id} `, {state: items})}
                   className="bg-[#62466B] text-white px-4 py-2 rounded-[8px] text-[12px]"
                 >
                   View

@@ -6,7 +6,7 @@ import { MdOutlineToday } from "react-icons/md";
 
 export const Hero = ({data}) => {
 
-
+console.log(data, "data>>>>>");
   return (
     <div>
       <div className="w-full grid grid-cols-3 mt-4 gap-11">
@@ -29,8 +29,7 @@ export const Hero = ({data}) => {
         </div>
         <div className="flex items-center justify-between bg-gray-50 backdrop-blur-[50px] p-5 rounded-[15px]">
           <div className="flex flex-col">
-            <p className="text-[#775B84] text-[22.98px] font-medium">{data?.amountThisMonth
-            }$</p>
+            <p className="text-[#775B84] text-[22.98px] font-medium">{data?.amountThisMonth?.toFixed(3)}$</p>
             <p className="text-[11.14px] font-medium text-[#8A92A6]">
               This Month
             </p>
